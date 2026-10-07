@@ -1,0 +1,25 @@
+## exports
+build/
+__pycache__
+
+## work in progress
+scripts/ancient-greece-era*
+scripts/ancient-rome-era*
+scripts/belle-epoque-era*
+scripts/celtic-myth*
+scripts/cyberpunk*
+scripts/enchanted-library*
+scripts/inca-empire-era*
+scripts/nature*
+scripts/ottoman-habsburg-rivalry-era*
+scripts/pirate-republic-era*
+scripts/pile-dwellings-era*
+scripts/ptuj*
+scripts/slavic-myth*
+scripts/steampunk*
+scripts/victorian-era*
+scripts/vietnam-war-era*
+scripts/viking-era*
+scripts/wild-west-era*
+scripts/world-war-I-era*
+scripts/world-war-II-era*
