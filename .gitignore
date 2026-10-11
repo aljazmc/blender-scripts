@@ -1,6 +1,8 @@
-scripts/cube/*
+## exports
 
-!scripts/cube/cube.py
-!scripts/cube/exportgltf.py
-!scripts/cube/exportmp4.py
-!scripts/cube/saveblend.py
+*.bin
+*.blend
+*.gltf
+*.mp4
+*.pyc
+

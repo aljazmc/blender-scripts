@@ -16,7 +16,7 @@ build() {
         exit 1
     fi
 
-    find scripts -type f -name "*.py" | xargs -I {} sh -c "blender -b -P \"{}\""
+    find scripts -maxdepth 2 -mindepth 2 -type f -name "*.py" | xargs -I {} sh -c "blender -b -P \"{}\""
 
 }
 
