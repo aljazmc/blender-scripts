@@ -6,4 +6,5 @@
 *.gltf
 *.mp4
 *.pyc
+cache/
 
