@@ -24,6 +24,7 @@ build() {
 clean() {
 
     find scripts -type f ! -name "*.py" -delete
+    find scripts -mindepth 2 -type d -empty -delete
 
 }
 
