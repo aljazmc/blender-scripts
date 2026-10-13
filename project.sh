@@ -1,22 +1,23 @@
 #!/bin/bash
 
+require() {
+
+    local bin
+    if bin=$(command -v "$1"); then
+        echo "$1 found at: $bin"
+    else
+        echo "$1 is required but was not found" >&2
+        exit 1
+    fi
+
+}
+
 build() {
 
-    if blender_bin=$(command -v blender); then
-        echo "blender found at: $blender_bin"
-    else
-        echo "blender is required but was not found" >&2
-        exit 1
-    fi
-    
-    if ffmpeg_bin=$(command -v ffmpeg); then
-        echo "ffmpeg found at: $ffmpeg_bin"
-    else
-        echo "ffmpeg is required but was not found" >&2
-        exit 1
-    fi
+    require blender
+    require ffmpeg
 
-    find scripts -maxdepth 2 -mindepth 2 -type f -name "*.py" | xargs -I {} sh -c "blender -b -P \"{}\""
+    find scripts -maxdepth 2 -mindepth 2 -type f -name "*.py" -exec blender -b -P {} \;
 
 }
 
@@ -26,4 +27,7 @@ clean() {
 
 }
 
-"$1"
+case "$1" in
+    build|clean) "$1" ;;
+    *) echo "usage: $0 {build|clean}" >&2; exit 1 ;;
+esac

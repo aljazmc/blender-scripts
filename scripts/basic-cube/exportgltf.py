@@ -2,17 +2,15 @@ import bpy
 import os
 import sys
 
-script_dir = os.path.dirname( __file__ )
-sys.path.append( script_dir )
+script_dir = os.path.dirname(__file__)
+sys.path.append(script_dir)
 
-from modules.cube import basiccube as basiccube
-
-filepath = os.path.join( script_dir, "cube.gltf" )
+from modules.cube import basiccube
 
 basiccube()
 
 bpy.ops.export_scene.gltf(
-    filepath=filepath,
+    filepath=os.path.join(script_dir, "cube.gltf"),
     export_format="GLTF_SEPARATE",
-    use_active_collection =True
+    use_active_collection=True
 )

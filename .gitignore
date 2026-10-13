@@ -2,6 +2,7 @@
 
 *.bin
 *.blend
+*.blend1
 *.gltf
 *.mp4
 *.pyc
