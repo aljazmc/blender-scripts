@@ -1,0 +1,14 @@
+# Ruff's defaults, minus the style rules these scripts break on purpose
+src = ["scripts"]
+
+[lint]
+ignore = [
+    "C408",    # dict(key=value) reads like the keyword settings it holds
+    "ISC004",  # long text in lists is split over lines without parentheses
+    "RUF059",  # unpacking names every part, even the ones not used
+]
+
+[lint.isort]
+# modules that projects import from their own folder or from scripts/
+known-first-party = ["common"]
+

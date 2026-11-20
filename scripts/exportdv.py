@@ -1,6 +1,7 @@
-import bpy
 import os
 import sys
+
+import bpy
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 

@@ -1,8 +1,9 @@
-import bpy
 import os
-import sys
 import subprocess
+import sys
 import tempfile
+
+import bpy
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 

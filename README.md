@@ -127,6 +127,9 @@ shellcheck project.sh tests/*.sh
 ruff check .
 ```
 
+GitHub Actions runs both on every push and pull request, see
+[.github/workflows/lint.yml](.github/workflows/lint.yml).
+
 ## Gallery
 
 `cyberpunk-butterfly00`, exported with `./project.sh cyberpunk-butterfly00 gif`
