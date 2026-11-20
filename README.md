@@ -105,6 +105,28 @@ Themes such as `cyberpunk`, `steampunk`, `nature` and historical eras are
 work in progress and kept out of the repository by `.gitignore` until they
 are ready.
 
+## Tests
+
+```sh
+bash tests/test_project.sh             # project.sh
+python3 -m unittest discover tests     # the Python scripts
+```
+
+The tests need only bash and Python's standard library, and none of them
+runs the application or writes outputs. `tests/test_project.sh` checks
+that `project.sh` rejects bad arguments with its usage and exit code 1.
+`tests/test_common.py` checks that `load_project()` stops with a message
+when the project is missing or unknown; it runs on plain Python, without
+Blender.
+
+To lint the code with [ShellCheck](https://www.shellcheck.net/) and
+[Ruff](https://docs.astral.sh/ruff/):
+
+```sh
+shellcheck project.sh tests/*.sh
+ruff check .
+```
+
 ## Gallery
 
 `cyberpunk-butterfly00`, exported with `./project.sh cyberpunk-butterfly00 gif`
