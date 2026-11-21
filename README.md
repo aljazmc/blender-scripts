@@ -3,7 +3,7 @@
 Python scripts that build animated 3D scenes in Blender through its `bpy`
 API, and a shell script that renders and exports them to images, videos and
 3D formats, about forty in all. Each scene is a self-contained project in
-`scripts/` with AI-generated code.
+`scripts/`.
 
 ## Requirements
 
