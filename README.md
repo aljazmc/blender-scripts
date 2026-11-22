@@ -1,16 +1,52 @@
 # blender-scripts
 
-Python scripts that build animated 3D scenes in Blender through its `bpy`
-API, and a shell script that renders and exports them to images, videos and
-3D formats, about forty in all. Each scene is a self-contained project in
-`scripts/`.
+[![lint](https://github.com/aljazmc/blender-scripts/actions/workflows/lint.yml/badge.svg)](https://github.com/aljazmc/blender-scripts/actions/workflows/lint.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Blender](https://img.shields.io/badge/Blender-bpy-e87d0d?logo=blender&logoColor=white)](https://www.blender.org/)
+[![Python](https://img.shields.io/badge/Python-Blender's%20own-3776ab?logo=python&logoColor=white)](https://docs.blender.org/api/current/)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-gif-007808?logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![ShellCheck](https://img.shields.io/badge/ShellCheck-checked-4eaa25?logo=gnubash&logoColor=white)](https://www.shellcheck.net/)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-fe5196?logo=conventionalcommits&logoColor=white)](https://www.conventionalcommits.org/)
+
+Animated 3D scenes written as code. Python scripts build every object,
+material, light, camera and keyframe in Blender through its `bpy` API, and a
+shell script renders and exports them to images, videos and 3D formats, 37
+in all.
+
+![cyberpunk-butterfly00: a neon butterfly flying over a synthwave grid](gallery/cyberpunk-butterfly00.gif)
+
+## Features
+
+- **Scenes from code.** A project builds its whole scene, from meshes and
+  shaders to the camera's flight path, in Blender's empty startup file.
+- **37 outputs.** Still images, videos, an animated GIF, 3D formats for
+  other programs, and the `.blend` file to keep editing in Blender.
+- **One command per output.** `./project.sh <project> <format>` runs
+  Blender in the background and fails when the script fails.
+- **Nothing else to install.** Blender brings its own Python; FFmpeg is
+  needed only for the GIF.
+- **One subject in three tools.** The butterfly is also an SVG drawing in
+  [inkscape-scripts](https://github.com/aljazmc/inkscape-scripts) and a
+  raster painting in [gimp-scripts](https://github.com/aljazmc/gimp-scripts),
+  with the same coordinates.
+
+## Quick start
+
+```sh
+git clone https://github.com/aljazmc/blender-scripts.git
+cd blender-scripts
+./project.sh cyberpunk-butterfly00 mp4
+```
+
+The video is written to `build/cyberpunk-butterfly00.mp4`.
 
 ## Requirements
 
-- Blender, with `blender` on the `PATH` (scenes use the EEVEE renderer)
-- FFmpeg, with `ffmpeg` on the `PATH`, for the `gif` output
-
-Blender brings its own Python, so nothing else needs to be installed.
+| Requirement | Notes |
+| --- | --- |
+| Blender | `blender` on the `PATH`; the scenes use the EEVEE renderer |
+| FFmpeg | `ffmpeg` on the `PATH`, for the `gif` output only |
 
 ## Usage
 
@@ -23,37 +59,31 @@ Blender brings its own Python, so nothing else needs to be installed.
 ./project.sh clean                     # remove build/ and blend/
 ```
 
-For example:
-
-```sh
-./project.sh cyberpunk-butterfly00 mp4
-```
-
 Outputs go to `build/<project>.<format>`, and `blend` outputs to
 `blend/<project>.blend`. Existing outputs are skipped, so clean them to
-rebuild. Run `./project.sh` from the repository root. Without arguments,
-it prints the usage with every format and the first ten projects.
+rebuild. Run `./project.sh` from the repository root. Without arguments, it
+prints the usage with every format and the first ten projects.
 
 ### Formats
 
-`abc avi avif bmp cin dpx dv exr fbx flv gif glb gltf hdr jp2 jpg mkv mov
-mp4 mpg obj ply png png100 rgb stl tga tif usd usda usdc usdz vob webm
-webp blend`
+| Kind | Formats |
+| --- | --- |
+| Still images | `png` `png100` `jpg` `webp` `avif` `bmp` `tif` `tga` `jp2` `exr` `hdr` `dpx` `cin` `rgb` |
+| Videos | `mp4` `mkv` `webm` `mov` `avi` `ogv` `flv` `mpg` `vob` `dv` `gif` |
+| 3D scenes | `glb` `gltf` `fbx` `abc` `usd` `usda` `usdc` `usdz` `obj` `ply` `stl` |
+| Blender | `blend` |
 
-- **Still images** (`avif bmp cin dpx exr hdr jp2 jpg png png100 rgb tga
-  tif webp`) render one 1920×1080 frame: `png` the middle frame of the
-  animation, the others frame 100 (`png100` is written as
+- **Still images** render one 1920×1080 frame: `png` the middle frame of
+  the animation, the others frame 100 (`png100` is written as
   `build/<project>100.png`).
-- **Videos** (`avi dv flv mkv mov mp4 mpg ogv vob webm`) render the whole
-  animation at 1920×1080, except `dv`, which is PAL DV at 720×576 and 25
-  fps. `gif` renders it at 640×360 and assembles the frames with FFmpeg,
-  using a palette made from the animation itself.
-- **3D scenes** (`abc fbx glb gltf obj ply stl usd usda usdc usdz`) export
-  the scene for other 3D programs. `abc`, `fbx`, `glb`, `gltf` and the USD
-  formats keep the animation, and `glb` and `gltf` bake it and include the
-  camera. `obj`, `ply` and `stl` hold only the geometry of the first
-  frame. `gltf` writes `build/<project>.bin` next to it and `obj` writes
-  `build/<project>.mtl`.
+- **Videos** render the whole animation at 1920×1080, except `dv`, which is
+  PAL DV at 720×576 and 25 fps. `gif` renders it at 640×360 and assembles
+  the frames with FFmpeg, using a palette made from the animation itself.
+- **3D scenes** export the scene for other 3D programs. `abc`, `fbx`, `glb`,
+  `gltf` and the USD formats keep the animation, and `glb` and `gltf` bake
+  it and include the camera. `obj`, `ply` and `stl` hold only the geometry
+  of the first frame. `gltf` writes `build/<project>.bin` next to it and
+  `obj` writes `build/<project>.mtl`.
 - **`blend`** saves the generated scene, to open and edit it in Blender.
 
 ## How it works
@@ -99,7 +129,9 @@ over a synthwave grid towards a striped sun. It is the 3D version of the
 drawing in [inkscape-scripts](https://github.com/aljazmc/inkscape-scripts),
 whose pixel coordinates it keeps: the wings are meshes that flap and bend,
 the glow comes from emission shaders and bloom, and the camera follows a
-smoothed flight path.
+smoothed flight path. The GIF above was exported with
+`./project.sh cyberpunk-butterfly00 gif` and reduced to 480×270 at 15 fps
+with FFmpeg to keep the file small.
 
 Themes such as `cyberpunk`, `steampunk`, `nature` and historical eras are
 work in progress and kept out of the repository by `.gitignore` until they
@@ -113,13 +145,15 @@ python3 -m unittest discover tests     # the Python scripts
 ```
 
 The tests need only bash and Python's standard library, and none of them
-runs the application or writes outputs. `tests/test_project.sh` checks
-that `project.sh` rejects bad arguments with its usage and exit code 1.
-`tests/test_common.py` checks that `load_project()` stops with a message
-when the project is missing or unknown; it runs on plain Python, without
-Blender.
+runs the application or writes outputs.
 
-To lint the code with [ShellCheck](https://www.shellcheck.net/) and
+- `tests/test_project.sh` checks that `project.sh` rejects bad arguments
+  with its usage and exit code 1.
+- `tests/test_common.py` checks that `load_project()` stops with a message
+  when the project is missing or unknown; it runs on plain Python, without
+  Blender.
+
+Lint the code with [ShellCheck](https://www.shellcheck.net/) and
 [Ruff](https://docs.astral.sh/ruff/):
 
 ```sh
@@ -130,30 +164,21 @@ ruff check .
 GitHub Actions runs both on every push and pull request, see
 [.github/workflows/lint.yml](.github/workflows/lint.yml).
 
-## Gallery
-
-`cyberpunk-butterfly00`, exported with `./project.sh cyberpunk-butterfly00 gif`
-and reduced to 480×270 at 15 fps with FFmpeg to keep the file small:
-
-![cyberpunk-butterfly00](gallery/cyberpunk-butterfly00.gif)
-
 ## License
 
-The scripts are licensed under the MIT license, see [LICENSE](LICENSE).
-The files in `gallery/` were made with them and are under the same
-license.
+The scripts are licensed under the [MIT License](LICENSE). The files in
+`gallery/` were made with them and are under the same license.
 
 The scripts drive software that is not part of this repository and has
 licenses of its own:
 
-- [Blender](https://www.blender.org/about/license/) is free software
-  under the GNU General Public License, version 2 or later; the Blender
-  binaries as a whole are distributed under version 3 or later. These
-  scripts use the `bpy` API and run inside Blender; Blender's license FAQ
-  treats such scripts as covered by the GPL when they are distributed
-  together with Blender, and the MIT license is compatible with the GPL.
-  Whatever you render or export with Blender is yours, and the GPL does
-  not apply to it.
+- [Blender](https://www.blender.org/about/license/) is free software under
+  the GNU General Public License, version 2 or later; the Blender binaries
+  as a whole are distributed under version 3 or later. These scripts use
+  the `bpy` API and run inside Blender; Blender's license FAQ treats such
+  scripts as covered by the GPL when they are distributed together with
+  Blender, and the MIT license is compatible with the GPL. Whatever you
+  render or export with Blender is yours, and the GPL does not apply to it.
 - [FFmpeg](https://ffmpeg.org/legal.html) is licensed under the GNU LGPL,
   version 2.1 or later, or the GNU GPL, version 2 or later, depending on
   how it was built.
