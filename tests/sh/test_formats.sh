@@ -43,7 +43,7 @@ done
 
 check "scripts/saveblend.py saves blend/<project>.blend" \
     grep -qF 'load_project("blend")' scripts/saveblend.py
-check "the README lists blend" grep -qE '^\|.*`blend`' README.md
+check "the README lists blend" grep -qE "^\|.*\`blend\`" README.md
 
 # every format and the .blend file
 outputs=$(( ${#known[@]} + 1 ))
