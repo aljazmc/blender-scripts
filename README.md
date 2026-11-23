@@ -140,24 +140,64 @@ are ready.
 ## Tests
 
 ```sh
-bash tests/test_project.sh             # project.sh
-python3 -m unittest discover tests     # the Python scripts
+for test in tests/sh/test_*.sh; do bash "$test"; done   # project.sh
+python3 -m unittest discover tests/py                   # the scripts and the scenes
 ```
 
-The tests need only bash and Python's standard library, and none of them
-runs the application or writes outputs.
+The tests are split by language: `tests/sh/` tests `project.sh` with bash,
+`tests/py/` tests the Python scripts and the scenes they build. None of them
+writes outputs into the repository.
 
-- `tests/test_project.sh` checks that `project.sh` rejects bad arguments
+The tests of `project.sh` run it in a temporary sandbox, with a few fake
+projects and stand-ins for `blender` and `ffmpeg` (see `tests/sh/lib.sh`),
+so they render nothing and never touch `build/` or `blend/`:
+
+- `tests/sh/test_project.sh` checks that `project.sh` rejects bad arguments
   with its usage and exit code 1.
-- `tests/test_common.py` checks that `load_project()` stops with a message
-  when the project is missing or unknown; it runs on plain Python, without
-  Blender.
+- `tests/sh/test_formats.sh` checks that the formats of `project.sh`, the
+  exporters in `scripts/` and this README agree: every format has an
+  exporter that writes its own file, every exporter is listed, the Formats
+  table names every format, and the count of outputs is right.
+- `tests/sh/test_outputs.sh` checks the names of the outputs, as described
+  under Usage, through the `clean` commands, with the files some exporters
+  write next to them (`.bin` for `gltf`, `.mtl` for `obj`).
+- `tests/sh/test_run.sh` checks that `project.sh` runs Blender in the
+  background with `--python-exit-code 1`, the right exporter and the project
+  after `--`, for one project and for `all`; that it skips existing outputs,
+  reports a failed export with exit code 1 and stops when `blender` or
+  `ffmpeg` is missing.
+
+The Python tests run on plain Python. `tests/py/test_common.py` needs
+nothing else; the others build every project in Blender in the background,
+from its factory startup file, and are skipped when `blender` is not on the
+`PATH`. Each builds the scene, measures it inside Blender and checks the
+measurements outside it (see `tests/py/blender.py`); together they take
+seconds per project:
+
+- `tests/py/test_common.py` checks that `load_project()` stops with a message
+  when the project is missing or unknown.
+- `tests/py/test_scene.py` checks the scene: a camera, the EEVEE renderer at
+  1920×1080, a common frame rate, valid meshes without NaN coordinates, a
+  material on every mesh, shaders and a world connected to their outputs (an
+  unconnected output renders black), no missing image files (they render
+  magenta), no objects outside the scene (they are neither rendered nor
+  exported), and the same scene on every build.
+- `tests/py/test_animation.py` steps through every frame: keyframes stay in
+  the frame range, nothing jumps (a step much longer than the usual ones),
+  the camera never turns more than 15° from one frame to the next, and the
+  subject (what is animated, apart from the camera and lights) stays in
+  front of the camera, with its centre inside the picture and big enough to
+  see.
+- `tests/py/test_render.py` renders five frames across the animation at
+  160×90 and checks the pixels: neither black nor washed out, few blown-out
+  pixels, enough contrast, frames that differ from each other, and a subject
+  that shows: hiding it must change the picture.
 
 Lint the code with [ShellCheck](https://www.shellcheck.net/) and
 [Ruff](https://docs.astral.sh/ruff/):
 
 ```sh
-shellcheck project.sh tests/*.sh
+shellcheck project.sh tests/sh/*.sh
 ruff check .
 ```
 

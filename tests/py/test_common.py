@@ -1,12 +1,12 @@
 """Tests for scripts/common.py, which needs no bpy until a project is built.
-Run: python3 -m unittest discover tests"""
+Run: python3 -m unittest discover tests/py"""
 import importlib
 import sys
 import unittest
 from pathlib import Path
 from unittest import mock
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 common = importlib.import_module("common")
 
 

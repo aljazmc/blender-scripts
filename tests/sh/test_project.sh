@@ -3,9 +3,9 @@
 # project.sh rejects bad arguments with its usage and a failing exit code,
 # before it looks for any program or touches any output.
 #
-# Run from anywhere: bash tests/test_project.sh
+# Run from anywhere: bash tests/sh/test_project.sh
 
-cd "$(dirname "$0")/.." || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 
 failures=0
 
