@@ -89,8 +89,7 @@ class RenderTest(unittest.TestCase):
         cls.renders = {project: blender.probe(project, PROBE) for project in blender.projects()}
 
     def each(self):
-        for project, render in self.renders.items():
-            yield project, render
+        yield from self.renders.items()
 
     def test_frames_are_exposed(self):
         for project, render in self.each():

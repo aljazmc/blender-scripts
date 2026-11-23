@@ -96,7 +96,7 @@ def probe(project, code, timeout=900):
     result = subprocess.run(
         [BLENDER, "-b", "--factory-startup", "--python-exit-code", "1",
          "--python-expr", script, "--", project],
-        capture_output=True, text=True, timeout=timeout, cwd=ROOT,
+        capture_output=True, text=True, timeout=timeout, cwd=ROOT, check=False,
         env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
     )
     lines = [line for line in result.stdout.splitlines() if line.startswith("RESULT ")]

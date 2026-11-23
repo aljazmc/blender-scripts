@@ -88,8 +88,7 @@ class SceneTest(unittest.TestCase):
         cls.scenes = {project: blender.probe(project, PROBE) for project in blender.projects()}
 
     def each(self):
-        for project, scene in self.scenes.items():
-            yield project, scene
+        yield from self.scenes.items()
 
     def test_renders_through_a_camera_with_eevee(self):
         for project, scene in self.each():

@@ -61,9 +61,10 @@ emit({
 def steps(path):
     """(distance, degrees) moved between consecutive frames of a path of
     [x, y, z, qw, qx, qy, qz]."""
+    import itertools
     import math
     out = []
-    for a, b in zip(path, path[1:]):
+    for a, b in itertools.pairwise(path):
         distance = math.dist(a[:3], b[:3])
         dot = abs(sum(p * q for p, q in zip(a[3:], b[3:])))
         degrees = math.degrees(2 * math.acos(min(1.0, dot)))
@@ -79,8 +80,7 @@ class AnimationTest(unittest.TestCase):
         cls.animations = {project: blender.probe(project, PROBE) for project in blender.projects()}
 
     def each(self):
-        for project, animation in self.animations.items():
-            yield project, animation
+        yield from self.animations.items()
 
     def test_keyframes_stay_in_the_frame_range(self):
         for project, animation in self.each():
