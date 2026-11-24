@@ -1,0 +1,46 @@
+name: CI
+run-name: CI quickie by @${{ github.actor }}
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          show-progress: false
+      # shellcheck comes with the ubuntu-latest runner
+      # and with aljazmc/actions-debian for self-hosted
+      # testing with act
+      - run: shellcheck --version
+      - run: shellcheck project.sh tests/sh/test_project.sh
+
+  lint-ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          show-progress: false
+      - uses: astral-sh/ruff-action@v3
+        with:
+          version: 0.17.6
+          args: check --output-format=github
+
+  test-bash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          show-progress: false
+      - run: |
+          for test in tests/sh/test_project.sh; do bash "$test"; done
+
