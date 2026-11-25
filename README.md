@@ -1,6 +1,6 @@
 # blender-scripts
 
-[![lint](https://github.com/aljazmc/blender-scripts/actions/workflows/lint.yml/badge.svg)](https://github.com/aljazmc/blender-scripts/actions/workflows/lint.yml)
+[![CI](https://github.com/aljazmc/blender-scripts/actions/workflows/ci.yml/badge.svg)](https://github.com/aljazmc/blender-scripts/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Blender](https://img.shields.io/badge/Blender-bpy-e87d0d?logo=blender&logoColor=white)](https://www.blender.org/)
 [![Python](https://img.shields.io/badge/Python-Blender's%20own-3776ab?logo=python&logoColor=white)](https://docs.blender.org/api/current/)
