@@ -89,7 +89,7 @@ process() {
 clean() {
 
     find . -type d -name __pycache__ -prune -exec rm -rf {} +
-    rm -rf build blend
+    rm -rf build blend .cache .config .ruff_cache
 
 }
 
